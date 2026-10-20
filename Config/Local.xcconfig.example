@@ -1,0 +1,9 @@
+// Copy to Config/Local.xcconfig (git-ignored) and fill in your own values.
+//
+// Your team ID is the OU field of your "Apple Development" certificate:
+//   security find-certificate -c "Apple Development" -p | openssl x509 -noout -subject
+// Any Apple ID signed in to Xcode can create that certificate; no paid account needed.
+
+BUNDLE_ID_PREFIX = com.yourname
+DEVELOPMENT_TEAM = ABCDE12345
+CODE_SIGN_IDENTITY = Apple Development

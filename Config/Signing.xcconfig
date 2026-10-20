@@ -1,0 +1,13 @@
+// Signing and bundle ID defaults for anyone building from a fresh clone:
+// ad-hoc signing and a placeholder bundle ID.
+//
+// Ad-hoc builds get a new code identity on every build, so macOS asks for
+// Accessibility permission again after each rebuild. To avoid that, copy
+// Local.xcconfig.example to Local.xcconfig (git-ignored) and fill in your own values.
+
+BUNDLE_ID_PREFIX = com.example
+DEVELOPMENT_TEAM =
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = -
+
+#include? "Local.xcconfig"

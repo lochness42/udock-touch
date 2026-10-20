@@ -1,0 +1,66 @@
+name: UDockTouch
+options:
+  deploymentTarget:
+    macOS: "13.0"
+  createIntermediateGroups: true
+# Signing and bundle ID prefix: see Config/Signing.xcconfig.
+configFiles:
+  Debug: Config/Signing.xcconfig
+  Release: Config/Signing.xcconfig
+settings:
+  base:
+    ENABLE_HARDENED_RUNTIME: YES
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: 0.2.0
+    CURRENT_PROJECT_VERSION: 1
+targets:
+  TouchCore:
+    type: framework
+    platform: macOS
+    sources: [TouchCore]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(BUNDLE_ID_PREFIX).udocktouch.TouchCore
+        GENERATE_INFOPLIST_FILE: YES
+        SKIP_INSTALL: YES
+  UDockTouch:
+    type: application
+    platform: macOS
+    sources: [App, Settings, Diagnostics]
+    dependencies:
+      - target: TouchCore
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleDisplayName: UDock Touch
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
+    entitlements:
+      path: App/UDockTouch.entitlements
+      properties:
+        com.apple.security.app-sandbox: false
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: $(BUNDLE_ID_PREFIX).udocktouch
+        PRODUCT_NAME: UDock Touch
+        PRODUCT_MODULE_NAME: UDockTouch
+  TouchCoreTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [Tests]
+    dependencies:
+      - target: TouchCore
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        MACOSX_DEPLOYMENT_TARGET: "14.0"
+schemes:
+  UDockTouch:
+    build:
+      targets:
+        UDockTouch: all
+        TouchCoreTests: [test]
+    test:
+      targets: [TouchCoreTests]
